@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Corcel\TermTaxonomyBuilder
+ * Corcel\Database\Builders\TermTaxonomyBuilder
  *
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
-namespace Corcel;
+namespace Corcel\Database\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 

@@ -1,12 +1,12 @@
 <?php 
 
 /**
- * Corcel\PostBuilder
+ * Corcel\Database\Builders\PostBuilder
  * 
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
-namespace Corcel;
+namespace Corcel\Database\Builders;
 
 use Illuminate\Database\Eloquent\Builder;
 
