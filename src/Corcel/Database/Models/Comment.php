@@ -6,7 +6,7 @@
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
-namespace Corcel;
+namespace Corcel\Database\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Database\Models;
 
 class Page extends Post
 {

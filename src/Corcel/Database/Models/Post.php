@@ -6,13 +6,14 @@
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
-namespace Corcel;
+namespace Corcel\Database\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Post extends Eloquent
+use Corcel\Database\Builders\PostBuilder;
+
+class Post extends Model
 {
     const CREATED_AT = 'post_date';
     const UPDATED_AT = 'post_modified';
@@ -28,7 +29,7 @@ class Post extends Eloquent
      */
     public function meta()
     {
-        return $this->hasMany('Corcel\PostMeta', 'post_id');
+        return $this->hasMany('Corcel\Database\Models\PostMeta', 'post_id');
     }
 
     public function fields()
@@ -43,7 +44,7 @@ class Post extends Eloquent
      */
     public function taxonomies()
     {
-        return $this->belongsToMany('Corcel\TermTaxonomy', 'term_relationships', 'object_id', 'term_taxonomy_id');
+        return $this->belongsToMany('Corcel\Database\Models\TermTaxonomy', 'term_relationships', 'object_id', 'term_taxonomy_id');
     }
 
     /**
@@ -53,7 +54,7 @@ class Post extends Eloquent
      */
     public function comments()
     {
-        return $this->hasMany('Corcel\Comment', 'comment_post_ID');
+        return $this->hasMany('Corcel\Database\Models\Comment', 'comment_post_ID');
     }
 
     /**
@@ -63,7 +64,7 @@ class Post extends Eloquent
      */
     public function attachment()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'attachment');
+        return $this->hasMany('Corcel\Database\Models\Post', 'post_parent')->where('post_type', 'attachment');
     }
 
 
@@ -74,7 +75,7 @@ class Post extends Eloquent
      */
     public function revision()
     {
-        return $this->hasMany('Corcel\Post', 'post_parent')->where('post_type', 'revision');
+        return $this->hasMany('Corcel\Database\Models\Post', 'post_parent')->where('post_type', 'revision');
     }
 
     /**

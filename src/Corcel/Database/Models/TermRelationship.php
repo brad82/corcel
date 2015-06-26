@@ -1,8 +1,6 @@
 <?php
 
-namespace Corcel;
-
-use Illuminate\Database\Eloquent\Model;
+namespace Corcel\Database\Models;
 
 class TermRelationship extends Model
 {
@@ -11,11 +9,11 @@ class TermRelationship extends Model
 
     public function post()
     {
-        return $this->belongsTo('Corcel\Post', 'object_id');
+        return $this->belongsTo('Corcel\Database\Models\Post', 'object_id');
     }
 
     public function taxonomy()
     {
-        return $this->belongsTo('Corcel\TermTaxonomy', 'term_taxonomy_id');
+        return $this->belongsTo('Corcel\Database\Models\TermTaxonomy', 'term_taxonomy_id');
     }
 }

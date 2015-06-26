@@ -6,11 +6,11 @@
  * @author Junior Grossi <juniorgro@gmail.com>
  */
 
-namespace Corcel;
+namespace Corcel\Database\Models;
 
-use Illuminate\Database\Eloquent\Model as Eloquent;
+use Corcel\Database\Collections\PostMetaCollection;
 
-class PostMeta extends Eloquent
+class PostMeta extends Model
 {
     protected $table = 'postmeta';
     protected $primaryKey = 'meta_id';
@@ -24,14 +24,14 @@ class PostMeta extends Eloquent
      */
     public function post()
     {
-        return $this->belongsTo('Corcel\Post');
+        return $this->belongsTo('Corcel\Database\Post');
     }
 
     /**
      * Override newCollection() to return a custom collection
      *
      * @param array $models
-     * @return \Corcel\PostMetaCollection
+     * @return \Corcel\Database\Collections\PostMetaCollection
      */
     public function newCollection(array $models = array())
     {

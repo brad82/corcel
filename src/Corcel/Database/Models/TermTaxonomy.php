@@ -1,8 +1,8 @@
 <?php
 
-namespace Corcel;
+namespace Corcel\Database\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use Corcel\Database\Builders\TermTaxonomyBuilder;
 
 class TermTaxonomy extends Model
 {
@@ -12,24 +12,24 @@ class TermTaxonomy extends Model
 
     public function term()
     {
-        return $this->belongsTo('Corcel\Term', 'term_id');
+        return $this->belongsTo('Corcel\Database\Models\Term', 'term_id');
     }
 
     public function parentTerm()
     {
-        return $this->belongsTo('Corcel\TermTaxonomy', 'parent');
+        return $this->belongsTo('Corcel\Database\Models\TermTaxonomy', 'parent');
     }
 
     public function posts()
     {
-        return $this->belongsToMany('Corcel\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
+        return $this->belongsToMany('Corcel\Database\Models\Post', 'term_relationships', 'term_taxonomy_id', 'object_id');
     }
 
     /**
      * Overriding newQuery() to the custom TermTaxonomyBuilder with some interesting methods
      *
      * @param bool $excludeDeleted
-     * @return Corcel\TermTaxonomyBuilder
+     * @return Corcel\Database\Builders\TermTaxonomyBuilder
      */
     public function newQuery($excludeDeleted = true)
     {
