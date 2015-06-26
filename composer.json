@@ -1,10 +1,15 @@
 {
-    "name": "jgrossi/corcel",
-    "replace": { "juniorgrossi/corcel": "self.version" },
-    "description": "Wrappers to collect data from Wordpress databases",
-    "homepage": "http://github.com/jgrossi/corcel",
+    "name": "brad82/corcel",
+    "replace": { "jgrossi/corcel": "self.version" },
+    "description": "Laravel-esque implementation of jgrossi's Corcel package.",
+    "homepage": "http://github.com/bra82/corcel",
     "license": "MIT",
     "authors": [
+        {
+            "name": "Brad Morris",
+            "email": "hello@bradleymorris.co.uk",
+            "homepage": "http://bradleymorris.co.uk"
+        },       
         {
             "name": "Junior Grossi",
             "email": "juniorgro@gmail.com",
@@ -20,7 +25,7 @@
     },
     "autoload": {
         "psr-0": {
-            "Corcel": "src/"
+            "Corcel": "src/Corcel"
         },
         "classmap": [
             "models"
