@@ -1,165 +1,51 @@
-Wordpress Corcel
+Laravel Corcel
 ================
 
-*Corcel is under development, but it's working :D*
+This is a fork of jgrossi's awesome work on the original Corcel package. Its designed to play
+a bit better with the Laravel framework specifically. It was developed to be used in a laravel app that sat behind a corporate wordpress site. 
+
+We needed to pull some data in from wordpress which sat on a different server from the application. It made more sense to fork the package rather than override all the classes to allow for a separate connection.
 
 --
 
-Corcel is a class collection created to retrieve Wordpress database data using a better syntax. It uses the Eloquent ORM developed for the Laravel Framework, but you can use Corcel in any type of PHP project.
-
-This way you can use Wordpress as back-end, to insert posts, custom types, etc, and you can use what you want in front-end, like Silex, Slim Framework, Laravel, Zend, or even pure PHP (why not?).
+Corcel is a class collection created to retrieve Wordpress database data using a better syntax. This flavour of corcel is designed to work with Laravel only, although I'm sure it'll work without it. You'll just have to build a config class that can load `corcel.connection`.
 
 ## Installation
 
 To install Corcel just create a `composer.json` file and add:
 
     "require": {
-        "jgrossi/corcel": "dev-master"
+        "brad82/corcel": "dev-master"
     },
 
 After that run `composer install` and wait.
 
 ## Usage
 
-First you must include the Composer `autoload` file.
+Just include the service provider in your app config:
 
-    require __DIR__ . '/vendor/autoload.php';
+    'Corcel\Providers\CorcelServiceProvider'
 
-Now you must set your Wordpress database params:
+And then publish the config file with
 
-    $params = array(
-        'database'  => 'database_name',
-        'username'  => 'username',
-        'password'  => 'pa$$word',
-        'prefix'    => 'wp_' // default prefix is 'wp_', you can change to your own prefix
-    );
-    Corcel\Database::connect($params);
+    php artisan vendor:publish
 
-You can specify all Eloquent params, but some are default (but you can override them).
+### Configuration
 
-    'driver'    => 'mysql',
-    'host'      => 'localhost',
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => 'wp_', // Specify the prefix for wordpress tables, default prefix is 'wp_'
-
-### Posts
-
-    // All published posts
-    $posts = Post::published()->get();
-    $posts = Post::status('publish')->get();
-
-    // A specific post
-    $post = Post::find(31);
-    echo $post->post_title;
-
-You can retrieve meta data from posts too.
-
-    // Get a custom meta value (like 'link' or whatever) from a post (any type)
-    $post = Post::find(31);
-    echo $post->meta->link; // OR
-    echo $post->fields->link;
-    echo $post->link; // OR
-
-Updating post custom fields:
-
-    $post = Post::find(1);
-    $post->meta->username = 'juniorgrossi';
-    $post->meta->url = 'http://grossi.io';
-    $post->save();
-
-Inserting custom fields:
-
-    $post = new Post;
-    $post->save();
-
-    $post->meta->username = 'juniorgrossi';
-    $post->meta->url = 'http://grossi.io';
-    $post->save();
-
-### Custom Post Type
-
-You can work with custom post types too. You can use the `type(string)` method or create your own class.
-
-    // using type() method
-    $videos = Post::type('video')->status('publish')->get();
-
-    // using your own class
-    class Video extends Corcel\Post
-    {
-        protected $postType = 'video';
-    }
-    $videos = Video::status('publish')->get();
-
-Custom post types and meta data:
-
-    // Get 3 posts with custom post type (store) and show its title
-    $stores = Post::type('store')->status('publish')->take(3)->get();
-    foreach ($stores as $store) {
-        $storeAddress = $store->address; // option 1
-        $storeAddress = $store->meta->address; // option 2
-        $storeAddress = $store->fields->address; // option 3
-    }
-
-### Taxonomies
-
-You can get taxonomies for a specific post like:
-
-    $post = Post::find(1);
-    $taxonomy = $post->taxonomies()->first();
-    echo $taxonomy->taxonomy;
-
-Or you can search for posts using its taxonomies:
-
-    $post = Post::taxonomy('category', 'php')->first();
-
-### Pages
-
-Pages are like custom post types. You can use `Post::type('page')` or the `Page` class.
-
-    // Find a page by slug
-    $page = Page::slug('about')->first(); // OR
-    $page = Post::type('page')->slug('about')->first();
-    echo $page->post_title;
-
-### Categories & Taxonomies
-
-Get a category or taxonomy or load posts from a certain category. There are multiple ways
-to achief it.
-
-    // all categories
-    $cat = Taxonomy::category()->slug('uncategorized')->posts()->first();
-    echo "<pre>"; print_r($cat->name); echo "</pre>";
-
-    // only all categories and posts connected with it
-    $cat = Taxonomy::where('taxonomy', 'category')->with('posts')->get();
-    $cat->each(function($category) {
-        echo $category->name;
-    });
-
-    // clean and simple all posts from a category
-    $cat = Category::slug('uncategorized')->posts()->first();
-    $cat->posts->each(function($post) {
-        echo $post->post_title;
-    });
+Laravel Corcel comes with a corcel.php config file. The only key in here currently is `connection`. This is a driver you have already configured in your db.php you want corcel to use. Useful if your wordpress installation lives on a different server than your app.
 
 
-### Attachment and Revision
+### API
 
-Getting the attachment and/or revision from a `Post` or `Page`.
+Coming soon.. Its roughly on the same lines as the original package, although things have been namespaced, so the models live under Corcel\Database\Models instead of being imported into the
+global namespace.
 
-    $page = Page::slug('about')->with('attachment')->first();
-    // get feature image from page or post
-    print_r($page->attachment);
-
-    $post = Post::slug('test')->with('revision')->first();
-    // get all revisions from a post or page
-    print_r($post->revision);
+If you take a look at jgrossi's readme you can get the jist of it.
 
 
-## TODO
+## Roadmap
 
-I'm already working with Wordpress comments integration.
+I haven't got any plans to expand this past what's already here, as its working for my needs. I might update it in the future if the app its being used in demands it. I'm more than happy to look at pull requests if you have anything you think may help.
 
 ## Licence
 
